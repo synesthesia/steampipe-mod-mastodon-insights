@@ -271,6 +271,7 @@ query "followers" {
         to_char(f.created_at, 'YYYY-MM-DD') as since,
         f.followers_count as followers,
         f.following_count as following,
+        (CASE WHEN f.following_count <> 0 THEN TRUNC((f.followers_count::decimal / f.following_count), 2) ELSE null END) as followratio,
         f.statuses_count as toots,
         f.note
       from
@@ -322,6 +323,7 @@ query "following" {
         to_char(f.created_at, 'YYYY-MM-DD') as since,
         f.followers_count as followers,
         f.following_count as following,
+        (CASE WHEN f.following_count <> 0 THEN TRUNC((f.followers_count::decimal / f.following_count), 2) ELSE null END) as followratio,
         f.statuses_count as toots,
         f.note
       from
